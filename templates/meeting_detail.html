@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Meeting {{ meeting.id }} · Meeting-to-Action Assistant{% endblock %}
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('history') }}">Meeting history</a><span aria-hidden="true">/</span><span>Meeting #{{ meeting.id }}</span></div>
+<section class="page-heading detail-heading">
+    <div><span class="section-kicker">SAVED MEETING · {{ meeting.created_at }}</span><h1>Meeting analysis</h1><p>Analysis generated locally from the original transcript.</p></div>
+    <a class="button button-secondary" href="{{ url_for('index') }}">Analyze another</a>
+</section>
+<details class="transcript-details">
+    <summary>View original transcript</summary>
+    <pre>{{ meeting.transcript }}</pre>
+</details>
+{% include "_analysis.html" %}
+{% endblock %}

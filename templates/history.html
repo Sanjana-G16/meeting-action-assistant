@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Meeting history · Meeting-to-Action Assistant{% endblock %}
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('index') }}">Dashboard</a><span aria-hidden="true">/</span><span>Meeting history</span></div>
+<section class="page-heading">
+    <div><span class="section-kicker">YOUR LOCAL ARCHIVE</span><h1>Meeting history</h1><p>Previously analyzed meetings saved on this device.</p></div>
+    <a class="button button-primary" href="{{ url_for('index') }}">＋ New analysis</a>
+</section>
+{% if meetings %}
+    <section class="history-list">
+        {% for meeting in meetings %}
+            <article class="history-card">
+                <div class="history-icon" aria-hidden="true">▤</div>
+                <div class="history-main">
+                    <span class="section-kicker">MEETING #{{ meeting.id }} · {{ meeting.created_at }}</span>
+                    <h2><a href="{{ url_for('meeting_detail', meeting_id=meeting.id) }}">{{ meeting.transcript|striptags|truncate(85) }}</a></h2>
+                    <div class="history-meta"><span>{{ meeting.action_count }} action items</span><span>{{ meeting.summary|truncate(130) }}</span></div>
+                </div>
+                <a class="icon-link" href="{{ url_for('meeting_detail', meeting_id=meeting.id) }}" aria-label="Open meeting {{ meeting.id }}">→</a>
+                <form action="{{ url_for('delete_meeting', meeting_id=meeting.id) }}" method="post" class="delete-form" data-confirm="Delete this saved meeting? This cannot be undone.">
+                    <button class="button button-quiet delete-button" type="submit">Delete</button>
+                </form>
+            </article>
+        {% endfor %}
+    </section>
+{% else %}
+    <section class="empty-state history-empty">
+        <span class="empty-icon" aria-hidden="true">▤</span>
+        <h2>No saved meetings yet</h2>
+        <p>Analyze your first transcript and it will appear here.</p>
+        <a class="button button-primary" href="{{ url_for('index') }}">Start an analysis</a>
+    </section>
+{% endif %}
+{% endblock %}

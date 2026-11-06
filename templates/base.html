@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Turn meeting transcripts into clear summaries and follow-up actions using local demo processing.">
+    <title>{% block title %}M1-P2 Meeting-to-Action Assistant{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="{{ url_for('index') }}">
+            <span class="brand-mark" aria-hidden="true">M</span>
+            <span>Meeting<span class="brand-light">Action</span></span>
+        </a>
+        <nav aria-label="Main navigation">
+            <a href="{{ url_for('index') }}">Dashboard</a>
+            <a href="{{ url_for('history') }}">Meeting history</a>
+        </nav>
+        <span class="mode-badge"><span class="status-dot"></span> Demo Mode — Local Processing</span>
+    </header>
+    <main class="page-shell">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-stack" aria-live="polite">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+        <span>M1-P2 · AI-Powered Meeting-to-Action Assistant</span>
+        <span>Your transcript stays in this local application.</span>
+    </footer>
+</body>
+</html>

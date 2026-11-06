@@ -1,0 +1,92 @@
+<section class="results-grid">
+    <article class="result-card summary-card">
+        <div class="card-title-row">
+            <span class="card-icon icon-blue" aria-hidden="true">▤</span>
+            <div><span class="section-kicker">OVERVIEW</span><h2>Meeting summary</h2></div>
+        </div>
+        <p>{{ analysis.summary }}</p>
+    </article>
+    <article class="result-card">
+        <div class="card-title-row">
+            <span class="card-icon icon-violet" aria-hidden="true">✦</span>
+            <div><span class="section-kicker">HIGHLIGHTS</span><h2>Key discussion points</h2></div>
+        </div>
+        {% if analysis.discussion_points %}
+            <ul class="result-list">
+                {% for point in analysis.discussion_points %}<li>{{ point }}</li>{% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-copy">No separate discussion points were identified.</p>
+        {% endif %}
+    </article>
+    <article class="result-card">
+        <div class="card-title-row">
+            <span class="card-icon icon-green" aria-hidden="true">✓</span>
+            <div><span class="section-kicker">CONFIRMED</span><h2>Decisions made</h2></div>
+        </div>
+        {% if analysis.decisions %}
+            <ul class="result-list">
+                {% for decision in analysis.decisions %}<li>{{ decision }}</li>{% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-copy">No clearly stated decisions were found.</p>
+        {% endif %}
+    </article>
+    <article class="result-card">
+        <div class="card-title-row">
+            <span class="card-icon icon-orange" aria-hidden="true">↗</span>
+            <div><span class="section-kicker">NEXT STEPS</span><h2>Follow-up actions</h2></div>
+        </div>
+        {% if analysis.follow_ups %}
+            <ul class="result-list">
+                {% for item in analysis.follow_ups %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-copy">No explicit follow-up actions were identified.</p>
+        {% endif %}
+    </article>
+</section>
+
+<section class="panel table-panel">
+    <div class="panel-heading">
+        <div><span class="section-kicker">OWNERSHIP &amp; TIMING</span><h2>Action items</h2></div>
+        <span class="count-pill">{{ analysis.action_items|length }} found</span>
+    </div>
+    {% if analysis.action_items %}
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Task</th><th>Assigned to</th><th>Deadline</th><th>Status</th></tr></thead>
+                <tbody>
+                    {% for action in analysis.action_items %}
+                        <tr>
+                            <td class="task-cell">{{ action.task }}</td>
+                            <td>{{ action.assigned_to }}</td>
+                            <td>{{ action.deadline }}</td>
+                            <td><span class="status-pill {{ 'status-warning' if action.status == 'Needs clarification' else 'status-open' }}">{{ action.status }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state compact-empty"><span aria-hidden="true">✓</span><strong>No action items identified</strong><p>Try adding phrases such as “will,” “needs to,” or “action item” to your transcript.</p></div>
+    {% endif %}
+</section>
+
+<section class="clarification-card">
+    <div class="clarification-icon" aria-hidden="true">!</div>
+    <div class="clarification-content">
+        <span class="section-kicker">REVIEW NEEDED</span>
+        <h2>Clarifications</h2>
+        {% if analysis.clarifications %}
+            <p>These items may need more detail before they can be acted on.</p>
+            <ul>
+                {% for item in analysis.clarifications %}
+                    <li><strong>{{ item.item }}</strong><span>{{ item.reason }}</span></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No unclear or incomplete items were detected by the demo rules.</p>
+        {% endif %}
+    </div>
+</section>

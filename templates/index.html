@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Meeting-to-Action Assistant{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> SMARTER MEETING FOLLOW-THROUGH</div>
+        <h1>Turn conversations<br>into <span>clear next steps.</span></h1>
+        <p>Paste a meeting transcript to organize the key points, decisions, owners, deadlines, and anything that still needs clarification.</p>
+        <div class="hero-note"><span aria-hidden="true">✦</span> Runs locally with simple, transparent demo rules. No API key required.</div>
+    </div>
+    <div class="hero-illustration" aria-hidden="true">
+        <div class="illustration-sheet">
+            <div class="sheet-heading"><span></span><span></span><span></span></div>
+            <div class="sheet-title"></div>
+            <div class="sheet-line long"></div>
+            <div class="sheet-line medium"></div>
+            <div class="sheet-check"><span>✓</span><i></i></div>
+            <div class="sheet-check"><span>✓</span><i></i></div>
+            <div class="sheet-check"><span></span><i></i></div>
+        </div>
+        <div class="floating-tag"><span>✓</span> Actions organized</div>
+    </div>
+</section>
+
+<section class="workspace-grid">
+    <div class="panel transcript-panel">
+        <div class="panel-heading">
+            <div>
+                <span class="section-kicker">STEP 01</span>
+                <h2>Meeting transcript</h2>
+            </div>
+            <span class="text-label">Local processing</span>
+        </div>
+        <p class="panel-intro">Paste your notes or transcript below. The analyzer only reports details supported by the text.</p>
+        <form action="{{ url_for('analyze') }}" method="post" id="transcript-form">
+            <label class="visually-hidden" for="transcript">Paste your meeting transcript</label>
+            <textarea id="transcript" name="transcript" maxlength="50000" placeholder="Example: Maya will send the project plan by Friday. The team agreed to review it next week."></textarea>
+            <div class="textarea-footer">
+                <span>Up to 50,000 characters</span>
+                <span id="character-count">0 characters</span>
+            </div>
+            <div class="form-actions">
+                <button class="button button-primary" type="submit"><span aria-hidden="true">✦</span> Analyze meeting</button>
+                <button class="button button-secondary" type="button" id="load-demo" data-transcript="{{ demo_transcript }}">Load demo transcript</button>
+                <button class="button button-quiet" type="button" id="clear-transcript">Clear</button>
+            </div>
+        </form>
+    </div>
+    <aside class="tips-card">
+        <div class="tips-icon" aria-hidden="true">✎</div>
+        <h3>Get the clearest results</h3>
+        <p>Include names and dates in your transcript when you know them. For example:</p>
+        <div class="example-quote">“Maya will share the draft by Thursday.”</div>
+        <ul>
+            <li>Missing owners and deadlines are flagged.</li>
+            <li>Decisions are only shown when clearly stated.</li>
+            <li>No people or dates are guessed.</li>
+        </ul>
+    </aside>
+</section>
+<section class="privacy-strip">
+    <span class="privacy-icon" aria-hidden="true">◉</span>
+    <span><strong>Private by design</strong> — meetings are saved only in the local SQLite database on this computer.</span>
+    <a href="{{ url_for('history') }}">View saved meetings <span aria-hidden="true">→</span></a>
+</section>
+{% endblock %}

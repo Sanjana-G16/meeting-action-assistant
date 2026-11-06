@@ -1,0 +1,49 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment variables and credentials
+.env
+.env.*
+!.env.example
+*.secret
+*.secrets
+secrets.*
+credentials.*
+*_credentials.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local databases and meeting data
+instance/
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+*.sqlite-shm
+*.sqlite-wal
+
+# Temporary and operating-system files
+*.tmp
+*.temp
+*.bak
+*.orig
+*.swp
+*~
+.DS_Store
+Thumbs.db
